@@ -8,6 +8,8 @@ This project will help solidify the concepts of REST, API, Node.js and Express.
 
 You're going to build a personal API for your own data. Although the idea might seem silly, the point of the project is to get you used to routing and working with different kinds of data.
 
+**NOTE:** You might not get through all of the steps. That's OK. The further you get, the better off you'll be.
+
 ###Step 1: Build your base API
 * Using express, set up a server that listens on a port of your choice.
 * Make sure you set up some CORS middleware to avoid browser security issues
@@ -41,3 +43,48 @@ Now you're going to make some endpoints that can be added to as POST requests ar
 purpose: Add a url to a list of urls wherein your are mentioned. They could be news articles, publications, social media sites, etc. (They can also be fake! :) This resource should also have a GET that returns the data.
 ####`POST /friends`
 purpose: Add a name to a list of names that are your friends. You should also include a GET for this resource that returns the friend data.
+
+##Day 2
+
+###Step 5: Create skills endpoint
+This endpoint is going to be a bit more complicated than those you've made previously. For skills, we need to store a more complicated data structure. Here's how your skill could be structured:
+
+```javascript
+{
+  id: 1
+  name: 'Javascript',
+  experience: 'Intermediate'
+}
+```
+
+* In your server code, make an array that holds all of your skills. Be sure to define the array outside of the app.get or app.post methods, as it needs to persist (scope) outside of those methods and maintain its data. The array will hold 'skill' objects like the example above.
+* Create the endpoint
+
+####`GET /skills`
+purpose: retrieve the list of skills
+####`GET /skills/:id`
+purpose: retrieve a single skill by its id
+####`POST /skills`
+purpose: add a skill to the collection of skills
+####`PUT /skills/:id`
+purpose: edit a skill
+####`DELETE /skills/:id`
+purpose: delete a skill from the list
+
+###Step 6: Create a simple Angular app for your API
+* Create an index.html file that includes the Angular js include
+* Create divs that will each display bits of your API's data
+* Create a new controller js file for every endpoint that you want to show (e.g. SkillsController, HobbiesController, NameController, MentionsController, FriendsController, etc.)
+  * Make sure you include those controllers in your html file
+  * Each controller should perform the appropriate GET to retrieve its data
+* Point each div to its corresponding controller with the ng-controller directive
+* Each endpoint that is writeable (has a POST) should include an input field so the user can POST the information
+  * Use the chatty project as a guide. For example, you can copy/paste the directives.js file from chatty into this project to utilize the `ng-enter` directive on your input field. If you do, make sure you change the module from 'Chatty' to your app's name in the directives.js
+  * Make sure you include the code necessary for angular to POST your data in the appropriate controller
+
+###Step 7 (Black Diamond): Add a `/resume` endpoint
+* Add an endpoint that returns a PDF of your resume
+* Look into Node.js and serving static files through a route. (This SO question/answer should be all you need: http://stackoverflow.com/a/9151394/1160485)
+
+###Step 8 (Black Diamond): Add some filters to your `/skills` endpoint. 
+* Make it so the client can GET skills filtered by experience. Use the query string to let clients specify the experience that they want to filter by. The endpoint should then return all of the skills that match that experience.
