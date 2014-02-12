@@ -44,8 +44,6 @@ purpose: Add a url to a list of urls wherein your are mentioned. They could be n
 ####`POST /friends`
 purpose: Add a name to a list of names that are your friends. You should also include a GET for this resource that returns the friend data.
 
-##Day 2
-
 ###Step 5: Create skills endpoint
 This endpoint is going to be a bit more complicated than those you've made previously. For skills, we need to store a more complicated data structure. Here's how your skill could be structured:
 
