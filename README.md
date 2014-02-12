@@ -71,16 +71,14 @@ purpose: edit a skill
 ####`DELETE /skills/:id`
 purpose: delete a skill from the list
 
-###Step 6: Create a simple Angular app for your API
-* Create an index.html file that includes the Angular js include
-* Create divs that will each display bits of your API's data
-* Create a new controller js file for every endpoint that you want to show (e.g. SkillsController, HobbiesController, NameController, MentionsController, FriendsController, etc.)
-  * Make sure you include those controllers in your html file
-  * Each controller should perform the appropriate GET to retrieve its data
-* Point each div to its corresponding controller with the ng-controller directive
-* Each endpoint that is writeable (has a POST) should include an input field so the user can POST the information
-  * Use the chatty project as a guide. For example, you can copy/paste the directives.js file from chatty into this project to utilize the `ng-enter` directive on your input field. If you do, make sure you change the module from 'Chatty' to your app's name in the directives.js
-  * Make sure you include the code necessary for angular to POST your data in the appropriate controller
+###Step 6 (Black Diamond): Create a simple Angular app for your API
+* Create an Angular application using Yeoman
+* Create three routes: `/`, `/me`, and `/skills`
+  * `/` a homepage contains basic information about you (name and location)
+  * `/me` detailed information about you: hobbies, occupations, mentions and friends
+  * `/skills` page that displays your skills
+* Create a service that handles the network requests (hint: you could create a method for each endpoint, or you could consolidate some into the same method)
+* If you're feeling frisky, made inputs and add the logic necessary to edit any of the "writeable" endpoints
 
 ###Step 7 (Black Diamond): Add a `/resume` endpoint
 * Add an endpoint that returns a PDF of your resume
