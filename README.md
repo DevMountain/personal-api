@@ -70,7 +70,7 @@ purpose: edit a skill
 purpose: delete a skill from the list
 
 ###Step 6 (Black Diamond): Create a simple Angular app for your API
-* Create an Angular application using Yeoman
+* In a separate directory, create an Angular application using Yeoman
 * Create three routes: `/`, `/me`, and `/skills`
   * `/` a homepage contains basic information about you (name and location)
   * `/me` detailed information about you: hobbies, occupations, mentions and friends
