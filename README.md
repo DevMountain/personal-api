@@ -49,7 +49,7 @@ This endpoint is going to be a bit more complicated than those you've made previ
 
 ```javascript
 {
-  id: 1
+  id: 1,
   name: 'Javascript',
   experience: 'Intermediate'
 }
