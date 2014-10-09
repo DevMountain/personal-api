@@ -69,7 +69,7 @@ purpose: edit a skill
 ####`DELETE /skills/:id`
 purpose: delete a skill from the list
 
-###Step 6 (Black Diamond): Create a simple Angular app for your API
+###Step 6: Create a simple Angular app for your API
 * In a separate directory, create an Angular Application
 * Create three routes: `/`, `/me`, and `/skills`
   * `/` a homepage contains basic information about you (name and location)
@@ -78,9 +78,9 @@ purpose: delete a skill from the list
 * Create a service that handles the network requests (hint: you could create a method for each endpoint, or you could consolidate some into the same method)
 * If you're feeling frisky, made inputs and add the logic necessary to edit any of the "writeable" endpoints
 
-###Step 7 (Black Diamond): Add a `/resume` endpoint
+###Step 7: Add a `/resume` endpoint
 * Add an endpoint that returns a PDF of your resume
-* Look into Node.js and serving static files through a route. (This SO question/answer should be all you need: http://stackoverflow.com/a/9151394/1160485)
+* Look into Node.js and serving static files through a route. We can use middleware to have express look for files in a given directory and send them back as a response. Look for the express.static examples of middleware [here](http://expressjs.com/api.html#app.use)
 
-###Step 8 (Black Diamond): Add some filters to your `/skills` endpoint. 
+###Step 8: Add some filters to your `/skills` endpoint. 
 * Make it so the client can GET skills filtered by experience. Use the query string to let clients specify the experience that they want to filter by. The endpoint should then return all of the skills that match that experience.
