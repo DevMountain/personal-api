@@ -32,7 +32,7 @@ For the hobbies and occupations endpoints, let's have a way for the client to ge
 * Make it so when the client requests occupations or hobbies with a order query parameter, return an alphabetized list for order=desc and a reverse alphabetized list for order=asc (if your hobbies/occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting)
 
 ###Step 4: Make writable endpoints
-Now you're going to make some endpoints that can be added to as POST requests are sent to the server as well as read by GET requests.
+Now you're going to make some endpoints that can be added to or modified by `POST` or `PUT` requests.
 
 ####`PUT /name`
 Changes your name
