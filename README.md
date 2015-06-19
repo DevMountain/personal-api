@@ -71,7 +71,7 @@ purpose: add a skill to the collection of skills
 * In a separate directory, create an Angular Application
 * Using ngRoute, create three routes: `/`, `/me`, and `/skills`
   * `/` a homepage contains basic information about you (name and location)
-  * `/me` detailed information about you: hobbies, occupations, mentions and friends
+  * `/me` detailed information about you: hobbies and occupations
   * `/skills` page that displays your skills
 * Create a service that handles the network requests (hint: you could create a method for each endpoint, or you could consolidate some into the same method)
 * If you've arrive this far, go ahead and make some text inputs and add the logic necessary to edit or add to any of the "writeable" endpoints.
