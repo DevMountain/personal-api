@@ -12,16 +12,14 @@ You're going to build a personal API for your own data. Although the idea might 
 * Using Express, set up a server that listens on a port of your choice.
 * Consider setting up some CORS middleware to avoid browser cross-origin issues.
 
-###Step 2: Build static, read-only endpoints
-* These endpoints will return static data (see below)
+###Step 2: Build read-only endpoints
+* These endpoints will return data (see below)
 * These endpoints should only be accessible with a GET request (read-only)
 
 ####`GET /name`
 returns: Your name (e.g. Joe Sandwiches) in a JSON object
 ####`GET /location`
 returns: Your location (e.g. Seattle, WA) in a JSON object
-####`PUT /location`
-edits your current location
 ####`GET /hobbies`
 returns: Your hobbies (e.g. Fishing, Swimming, etc.) as an array in a JSON object
 ####`GET /occupations`
@@ -33,17 +31,17 @@ returns: The last/current job you have/had. The occupations will be stored in an
 For the hobbies and occupations endpoints, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
 * Make it so when the client requests occupations or hobbies with a order query parameter, return an alphabetized list for order=desc and a reverse alphabetized list for order=asc (if your hobbies/occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting)
 
-###Step 4: Make readable/writable endpoints
+###Step 4: Make writable endpoints
 Now you're going to make some endpoints that can be added to as POST requests are sent to the server as well as read by GET requests.
 
-####`GET /mentions`
-purpose: Add a url to a list of urls wherein your are mentioned. They could be news articles, publications, social media sites, etc. (They can also be fake! :)
-####`POST /mentions`
-purpose: add to list of mentions
-####`GET /references`
-purpose: Add a name to a list of names that would serve as personal references. 
-####`POST /references`
-purpose: add to list of references
+####`PUT /name`
+Changes your name
+####`PUT /location`
+Updates your current location.
+####`POST /hobbies`
+Adds to your list of hobbies.
+####`POST /occupations`
+Adds to your list of occupations.
 
 ###Step 5: Create skills endpoint
 This endpoint is going to be a bit more complicated than those you've made previously. For skills, we need to store a more complicated data structure. Here's how your skill could be structured:
