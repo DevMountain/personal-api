@@ -71,7 +71,7 @@ var mainCtrl = require('./controllers/mainCtrl.js');
 ```
 Now we can access any methods that we put inside of our `mainCtrl` or `middleware` objects with dot notation. We'll demonstrate by setting our middleware function to be used on every request. Remember your code from setting up body-parser, we will be doing the same thing with our own custom middleware.
 ```javascript
-app.use(middleware.addHeaders());
+app.use(middleware.addHeaders);
 ```
 As simple as that we no longer have to individually apply headers to every single endpoint! Remember that the `app.use()` method just applies a function to every request made before passing it on to the next function or eventually sending a response.
 
