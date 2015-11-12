@@ -120,7 +120,7 @@ returns: Any hobbies that match the type property specified in the request param
 
 ###Step 4: Add ordering to your API
 For the occupations endpoint, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
-* Make it so when the client requests occupations or hobbies with a order query parameter, return an alphabetized list for order=desc and a reverse alphabetized list for order=asc (if your hobbies/occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting)
+* Make it so when the client requests occupations with an order query parameter, return an alphabetized list for order=desc and a reverse alphabetized list for order=asc (if your occupations endpoint is arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting)
 
 ###Step 5: Make writable endpoints
 Now you're going to make some endpoints that can be added to or modified by `POST` or `PUT` requests.
