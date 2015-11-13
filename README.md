@@ -71,7 +71,7 @@ var mainCtrl = require('./controllers/mainCtrl.js');
 ```
 Now we can access any methods that we put inside of our `mainCtrl` or `middleware` objects with dot notation. We'll demonstrate by setting our middleware function to be used on every request. Remember your code from setting up body-parser, we will be doing the same thing with our own custom middleware.
 ```javascript
-app.use(middleware.addHeaders);
+app.use(middleware.addHeaders;
 ```
 As simple as that we no longer have to individually apply headers to every single endpoint! Remember that the `app.use()` method just applies a function to every request made before passing it on to the next function or eventually sending a response.
 
@@ -120,7 +120,7 @@ returns: Any hobbies that match the type property specified in the request param
 
 ###Step 4: Add ordering to your API
 For the occupations endpoint, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
-* Make it so when the client requests occupations with an order query parameter, return an alphabetized list for order=desc and a reverse alphabetized list for order=asc (if your occupations endpoint is arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting)
+* Make it so when the client requests occupations or hobbies with a order query parameter, return an alphabetized list for order=desc and a reverse alphabetized list for order=asc (if your hobbies/occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting)
 
 ###Step 5: Make writable endpoints
 Now you're going to make some endpoints that can be added to or modified by `POST` or `PUT` requests.
@@ -162,11 +162,18 @@ app.post('/skillz', middleware.generateId, mainCtrl.postSkillz);
 ```
 If this request is timing out make sure you didn't forget to include the `next()` call inside your middleware!
 
-###Step 7(Black Diamond): Allow for more queries/params
+###Step 7: Secrets
+Let's create one more endpoint, somewhere we want to hide our deep dark secrets. We don't want just anyone accessing our secrets, so lets have a username and PIN parameter to make sure that you are you! 
+```javascript
+app.get('/secrets/:username/:pin', /*...*/);`
+```
+(Note that you probably shouldn't use your actual PIN number here when testing). We'll need another set of middleware to handle this function, so create a new method in your `middleware.js` named `verifyUser`. This method should check that the parameters match a username and password you set, if so pass the request on to the `next` function, otherwise, send an error message back to the user without moving to the next function.
+
+###Step 8(Black Diamond): Allow for more queries/params
 * Let users search your hobbies, occupations, and skills endpoints by name.
 * Try to use `req.params` and `req.query` at least once each.
 
-###Step 8(Black Diamond): Create a simple Angular app for your API
+###Step 9(Black Diamond): Create a simple Angular app for your API
 * In a separate directory, create an Angular Application
 * Using ui.router, create three routes: `/`, `/me`, and `/skills`
   * `/` a homepage contains basic information about you (name and location)
