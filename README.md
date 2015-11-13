@@ -80,7 +80,7 @@ var mainCtrl = require('./controllers/mainCtrl.js');
 Now we can access any methods that we put inside of our `mainCtrl` or `middleware` objects with dot notation. We'll demonstrate by setting our middleware function to be used on every request. Remember your code from setting up body-parser, we will be doing the same thing with our own custom middleware.
 
 ```javascript
-app.use(middleware.addHeaders;
+app.use(middleware.addHeaders);
 ```
 
 As simple as that, we no longer have to individually apply headers to every single endpoint! Remember that the `app.use()` method just applies a function to every request made before passing it on to the next function or eventually sending a response.
@@ -92,30 +92,30 @@ As simple as that, we no longer have to individually apply headers to every sing
 
 ###### `GET /name`
 - returns: Your name (e.g. Joe Sandwiches) in a JSON object: 
-`{ name: 'Donald Duck' }`
+`{ "name": "Donald Duck" }`
 
 ###### `GET /location`
 - returns: Your location (e.g. Seattle, WA) in a JSON object: 
-`{ location: 'Timbuktu' }`
+`{ "location": "Timbuktu" }`
 
 ###### `GET /occupations`
 - returns: Your past occupations as an array in a JSON object: 
-`{ occupations: ['Thwarting Buggs Bunny', 'Tomfoolery'] }`
+`{ "occupations": ["Thwarting Buggs Bunny", "Tomfoolery"] }`
 
 ###### `GET /occupations/latest`
 - returns: The last/current job you have/had. The occupations will be stored in an array, but this method returns the last item of the array in a JSON reponse: 
-`{ latestOccupation: 'Tomfoolery' }`
+`{ "latestOccupation": "Tomfoolery" }`
 
 ###### `GET /hobbies`
 - returns: Your hobbies (e.g. Fishing, Swimming, etc.) as an array of objects in a JSON object: 
 ```javascript
 { hobbies: [{
-    name: 'Watching cartoons',
-    type: 'current'
+    "name": "Watching cartoons",
+    "type": "current"
     },
     {
-    name: 'Quacking',
-    type: 'past'
+    "name": "Quacking",
+    "type": "past"
     }
     ]
 }
@@ -148,9 +148,9 @@ This endpoint is going to be a bit more complicated than those you've made previ
 
 ```javascript
 {
-  id: 1,
-  name: 'Javascript',
-  experience: 'Intermediate'
+  "id": 1,
+  "name": "Javascript",
+  "experience": "Intermediate"
 }
 ```
 
