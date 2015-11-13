@@ -167,7 +167,7 @@ Let's create one more endpoint, somewhere we want to hide our deep dark secrets.
 ```javascript
 app.get('/secrets/:username/:pin', /*...*/);`
 ```
-(Note that you probably shouldn't use your actual PIN number here when testing). We'll need another set of middleware to handle this function, so create a new method in your `middleware.js` named `verifyUser`. This method should check that the parameters match a username and password you set, if so pass the request on to the `next` function, otherwise, send an error message back to the user without moving to the next function.
+(Note that you probably shouldn't use your actual PIN here when testing). We'll need another set of middleware to handle this function, so create a new method in your `middleware.js` named `verifyUser`. This method should check that the parameters match a username and PIN you set, if so pass the request on to the `next` function, otherwise, send an error message back to the user without moving to the next function.
 
 ###Step 8(Black Diamond): Allow for more queries/params
 * Let users search your hobbies, occupations, and skills endpoints by name.
