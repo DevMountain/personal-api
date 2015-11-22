@@ -1,13 +1,10 @@
 <img src="https://devmounta.in/img/logowhiteblue.png" width="250" align="right">
 
-## Personal Api
+Personal API
+============
 
-Start of the Personal API Project
-
---------
-
-#### Objectives
-This project will help solidify the concepts of REST, APIs, Node.js and Express. 
+##Objective
+Utilize Node.js, Express to create a simple REST API
 
 You're going to build a personal API for your own data. Although the idea might seem silly, the point of the project is to get you used to using Express to return data in an API.
 
