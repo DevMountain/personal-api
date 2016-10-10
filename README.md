@@ -4,7 +4,7 @@ Personal API
 ============
 
 ##Objective
-Utilize Node.js, Express to create a simple REST API
+Utilize Node.js and Express to create a simple REST API
 
 You're going to build a personal API for your own data. Although the idea might seem silly, the point of the project is to get you used to using Express to return data in an API.
 
@@ -15,7 +15,7 @@ You're going to build a personal API for your own data. Although the idea might 
 * Use body-parser's json method in an `app.use()` method.
 
 #### Step 1.5: Create a new file to store your user data.
-In this step. you'll need to create a file called `user.js` to store your user object in. You will `require` this file in your controllers, so you can have access to your user object later on. You can access the contents of this file throughout your application by using `module.exports`. You will learn more about this in the next step. For now, your user file should look something like this:
+In this step. you'll need to create a file called `user.js` to store your user object in. You can access the contents of this file throughout your application by using `module.exports`. You will learn more about this in the next step. For now, your user file should look something like this:
 
 ```javascript
 var user = {};
@@ -71,7 +71,7 @@ module.exports = {
     res.status(200).set({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
+      'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, PUT',
       'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
       'X-XSS-Protection': '1; mode=block',
       'X-Frame-Options': 'SAMEORIGIN',
@@ -119,7 +119,7 @@ As simple as that, we no longer have to individually apply headers to every sing
 
 ###### `GET /occupations/latest`
 - returns: The last/current job you have/had. The occupations will be stored in an array, but this method returns the last item of the array in a JSON reponse:
-`{ "latestOccupation": "Tomfoolery" }`
+`{ "latestOccupation": "Tomfoolery" }`. (Hint: this is just basic Javascript to access the last value of an array - checkout .slice on MDN)
 
 ###### `GET /hobbies`
 - returns: Your hobbies (e.g. Fishing, Swimming, etc.) as an array of objects in a JSON object:
@@ -137,14 +137,15 @@ As simple as that, we no longer have to individually apply headers to every sing
 ```
 
 ###### `GET /hobbies/:type`
-- returns: Any hobbies that match the type property specified in the request parameter
+- returns: Any hobbies that match the type property specified in the request parameter. (Hint: checkout the .filter method and the 2nd example of it [here](https://msdn.microsoft.com/en-us/library/ff679973(v=vs.94).aspx))
 
 #### Step 4: Add ordering to your API
 For the occupations endpoint, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
 * Make it so when the client requests occupations with a order query parameter, return an alphabetized list for `order=desc` and a reverse alphabetized list for `order=asc` (if your occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting).
+* This endpoint needs to work with or without an order query. So you will need to use an if statement (or a switch statement for extra credit) to check the value/existence of `req.query.order`. 
 
 #### Step 5: Make writable endpoints
-Now you're going to make some endpoints that can be added to or modified by `POST` or `PUT` requests.
+Now you're going to make some endpoints that can be added to or modified by `POST` or `PUT` requests. Make sure that in addition to sending the new/updated information, you also modify your user object so that future `GET` requests will reflect your changes.
 
 ###### `PUT /name`
 - Changes your name
@@ -169,7 +170,7 @@ This endpoint is going to be a bit more complicated than those you've made previ
 }
 ```
 
-* In your server code, make an array that holds all of your skills. Be sure to define the array outside of the `app.get` or `app.post` methods, as it needs to persist (scope) outside of those methods and maintain its data. The array will hold 'skill' objects like the example above.
+* Create a file called `skillz.js` and populate it with an array of skills objects like the example above. This file will be similar in nature to your `user.js` file and as such should utilize `module.exports` and be required in the necessary controller files. 
 * Create the endpoint
 
 ###### `GET /skillz`
@@ -179,8 +180,10 @@ This endpoint is going to be a bit more complicated than those you've made previ
 
 `GET /skillz?experience=Intermediate`
 
+- Like in step 4, use an if statement (or a ternary operator!) to determine the existence of `req.query.experience` and then use .filter to get the skillz that match the criteria.
+
 ###### `POST /skillz`
-- Add a skill to the collection of skills. For this endpoint let's create some middleware that will dynamically create IDs for us based on array length. This function will go inside of our `middleware.js` file. Because we only want to use this middleware on our skillz 'POST' endpoint we don't want to use the `app.use()` method; instead we want to pass it into our endpoint's arguments, like so:
+- Add a skill to the collection of skills. For this endpoint let's create some middleware that will dynamically create IDs for us based on the length of our skillz array. Identify the Javascript needed to determine what the generated id should be, and set this equal to `req.body.id`. This function will go inside of our `middleware.js` file. Because we only want to use this middleware on our skillz 'POST' endpoint we don't want to use the `app.use()` method; instead we want to pass it into our endpoint's arguments, like so:
 
 ```javascript
 app.post('/skillz', middleware.generateId, mainCtrl.postSkillz);
@@ -189,7 +192,8 @@ app.post('/skillz', middleware.generateId, mainCtrl.postSkillz);
 If this request is timing out, make sure you didn't forget to include the `next()` call inside your middleware!
 
 #### Step 7: Secrets
-Let's create one more endpoint, somewhere we want to hide our deep dark secrets. We don't want just anyone accessing our secrets, so lets have a username and PIN parameter to make sure that *you* are _**you!**_
+* Create one more file called `secrets.js` that will export an array of secrets stored as strings. Make sure to require this in the necessary controller file.
+* Let's create one more endpoint, somewhere we want to hide our deep dark secrets. We don't want just anyone accessing our secrets, so lets have a username and PIN parameter to make sure that *you* are _**you!**_
 
 ```javascript
 app.get('/secrets/:username/:pin', /*...*/);`
