@@ -14,6 +14,16 @@ You're going to build a personal API for your own data. Although the idea might 
 * Require Express and body-parser and initialize your express app.
 * Use body-parser's json method in an `app.use()` method.
 
+#### Step 1.5: Create a new file to store your user data.
+In this step. you'll need to create a file called `user.js` to store your user object in. You will `require` this file in your controllers, so you can have access to your user object later on. You can access the contents of this file throughout your application by using `module.exports`. You will learn more about this in the next step. For now, your user file should look something like this:
+
+```javascript
+var user = {};
+module.exports = user;
+```
+
+Where `user` will contain your own information.
+
 #### Step 2: Creating controllers
 In yesterday's projects you might have noticed that our `server.js` file was rapidly becoming very cluttered with our function logic. To get around this and keep a clean `server.js` we're going to create some controllers and move a significant amount of logic into those. Start by creating a `controllers` directory, inside which you will create a `middleware.js` and a `mainCtrl.js`. These are the files in which we write the bulk of our code today. We'll start in `middleware.js`.
 
@@ -45,6 +55,12 @@ module.exports = {
 ```
 
 As you can see we are just creating an object which we will then pull into our `server.js` to have access to the methods we create inside that object. This is similar to dependency injection in Angular, just a different syntax. I'll be using the second style in this project, but as I mentioned, it is just preference and both will function the same.
+
+Your controller will also need to access the contents of `user.js`, so you can view/manipulate your data. You can gain access to `user.js` by using `require` inside of your controller like so:
+
+```javascript
+var user = require('../user.js');
+```
 
 Inside of our `middleware.js` controller, let's create a new function that simply adds the headers we used yesterday to a response and then moves on to the next function. This looks a lot like our requests from yesterday, but without a `res.send()`:
 
@@ -90,23 +106,23 @@ As simple as that, we no longer have to individually apply headers to every sing
 * These endpoints will call functions from your controller rather than having them declared inside of the endpoint. i.e `app.get('/name', mainCtrl.getName)` rather than `app.get('/name', function(req, res) { /*...*/});`
 
 ###### `GET /name`
-- returns: Your name (e.g. Joe Sandwiches) in a JSON object: 
+- returns: Your name (e.g. Joe Sandwiches) in a JSON object:
 `{ "name": "Donald Duck" }`
 
 ###### `GET /location`
-- returns: Your location (e.g. Seattle, WA) in a JSON object: 
+- returns: Your location (e.g. Seattle, WA) in a JSON object:
 `{ "location": "Timbuktu" }`
 
 ###### `GET /occupations`
-- returns: Your past occupations as an array in a JSON object: 
+- returns: Your past occupations as an array in a JSON object:
 `{ "occupations": ["Thwarting Buggs Bunny", "Tomfoolery"] }`
 
 ###### `GET /occupations/latest`
-- returns: The last/current job you have/had. The occupations will be stored in an array, but this method returns the last item of the array in a JSON reponse: 
+- returns: The last/current job you have/had. The occupations will be stored in an array, but this method returns the last item of the array in a JSON reponse:
 `{ "latestOccupation": "Tomfoolery" }`
 
 ###### `GET /hobbies`
-- returns: Your hobbies (e.g. Fishing, Swimming, etc.) as an array of objects in a JSON object: 
+- returns: Your hobbies (e.g. Fishing, Swimming, etc.) as an array of objects in a JSON object:
 ```javascript
 { hobbies: [{
     "name": "Watching cartoons",
