@@ -22,7 +22,62 @@ var user = {};
 module.exports = user;
 ```
 
-Where `user` will contain your own information.
+Where `user` will contain your own information. Your `user` object should be in the format below. Feel free to add additional entries, but this is the bare minimum. Replace the null values with your own values.
+
+```javascript
+{
+  name: null,
+  location: null,
+  occupations: [],
+  hobbies: [
+    {
+      name: null,
+      type: null
+    },
+    {
+      name: null,
+      type: null
+    },
+    {
+      name: null,
+      type: null
+    }
+  ],
+  family: [
+    {
+      name: null,
+      relationship: null,
+      gender: null
+    },
+    {
+      name: null,
+      relationship: null,
+      gender: null
+    },{
+      name: null,
+      relationship: null,
+      gender: null
+    }
+  ],
+  restaurants: [
+    {
+      name: null,
+      type: null,
+      rating: null
+    },
+    {
+      name: null,
+      type: null,
+      rating: null
+    },
+    {
+      name: null,
+      type: null,
+      rating: null
+    }
+  ]
+}
+```
 
 #### Step 2: Creating controllers
 In yesterday's projects you might have noticed that our `server.js` file was rapidly becoming very cluttered with our function logic. To get around this and keep a clean `server.js` we're going to create some controllers and move a significant amount of logic into those. Start by creating a `controllers` directory, inside which you will create a `middleware.js` and a `mainCtrl.js`. These are the files in which we write the bulk of our code today. We'll start in `middleware.js`.
