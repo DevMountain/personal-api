@@ -8,7 +8,7 @@ Utilize Node.js and Express to create a simple REST API
 
 You're going to build a personal API for your own data. Although the idea might seem silly, the point of the project is to get you used to using Express to return data in an API.
 
-#### Step 1: Build your server's core.
+#### Step 1: Build your server's core - installation and server.js file.
 * Start as usual with an `npm init` command to create our `package.json`.
 * Now install your dependencies. We will be using Express and body-parser. Note that you can install multiple dependencies at once with npm: `npm install express body-parser --save`.
 * Require Express and body-parser and initialize your express app.
@@ -111,7 +111,7 @@ module.exports = {
 
 As you can see we are just creating an object which we will then pull into our `server.js` to have access to the methods we create inside that object. This is similar to dependency injection in Angular, just a different syntax. I'll be using the second style in this project, but as I mentioned, it is just preference and both will function the same.
 
-Your controller will also need to access the contents of `user.js`, so you can view/manipulate your data. You can gain access to `user.js` by using `require` inside of your controller like so:
+Your `mainCtrl.js` will also need to access the contents of `user.js`, so you can view/manipulate your data. You can gain access to `user.js` by using `require` inside of your controller like so:
 
 ```javascript
 var user = require('../user.js');
