@@ -22,7 +22,62 @@ var user = {};
 module.exports = user;
 ```
 
-Where `user` will contain your own information.
+Where `user` will contain your own information. Your `user` object should be in the format below. Feel free to add additional entries, but this is the bare minimum. Replace the null values with your own values.
+
+```javascript
+{
+  name: null,
+  location: null,
+  occupations: [],
+  hobbies: [
+    {
+      name: null,
+      type: null
+    },
+    {
+      name: null,
+      type: null
+    },
+    {
+      name: null,
+      type: null
+    }
+  ],
+  family: [
+    {
+      name: null,
+      relation: null,
+      gender: null
+    },
+    {
+      name: null,
+      relation: null,
+      gender: null
+    },{
+      name: null,
+      relation: null,
+      gender: null
+    }
+  ],
+  restaurants: [
+    {
+      name: null,
+      type: null,
+      rating: null
+    },
+    {
+      name: null,
+      type: null,
+      rating: null
+    },
+    {
+      name: null,
+      type: null,
+      rating: null
+    }
+  ]
+}
+```
 
 #### Step 2: Creating controllers
 In yesterday's projects you might have noticed that our `server.js` file was rapidly becoming very cluttered with our function logic. To get around this and keep a clean `server.js` we're going to create some controllers and move a significant amount of logic into those. Start by creating a `controllers` directory, inside which you will create a `middleware.js` and a `mainCtrl.js`. These are the files in which we write the bulk of our code today. We'll start in `middleware.js`.
@@ -139,6 +194,23 @@ As simple as that, we no longer have to individually apply headers to every sing
 ###### `GET /hobbies/:type`
 - returns: Any hobbies that match the type property specified in the request parameter. (Hint: checkout the .filter method and the 2nd example of it [here](https://msdn.microsoft.com/en-us/library/ff679973(v=vs.94).aspx))
 
+###### `GET /family`
+- returns: Your family members, as an array of objects in a JSON object.
+
+- Allow for a 'relation' query to retrieve all family members that match a given relation.
+
+###### `GET /family/:gender`
+- returns: All family members of the specified gender (Hint: see the hint on the `/hobbies/:type` endpoint)
+
+###### `GET /restaurants`
+- returns: Your favorite restaurants, as an array of objects in a JSON object.
+
+- Allow for a 'rating' query to retrieve all restaurants with a rating greater than or equal to 2. (Hint: go [here](https://support.sparkpay.com/hc/en-us/articles/202836800-Resource-Query-Filtering-Syntax) to see how to use greater than or equal to - see the Comparison Operators section.)
+
+###### `GET /restaurants/:name`
+- returns: Your favorite restaurant matching the supplied name parameter. (Hint: to use parameters - or queries - that are multiple words, use `+`: ex. `/restaurants/taco+bell`)
+
+
 #### Step 4: Add ordering to your API
 For the occupations endpoint, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
 * Make it so when the client requests occupations with a order query parameter, return an alphabetized list for `order=desc` and a reverse alphabetized list for `order=asc` (if your occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting).
@@ -158,6 +230,12 @@ Now you're going to make some endpoints that can be added to or modified by `POS
 
 ###### `POST /occupations`
 - Adds to your list of occupations.
+
+###### `POST /family`
+- Adds to your list of family members.
+
+###### `POST /restaurants`
+- Adds to your list of restaurants.
 
 #### Step 6: Create skills endpoint
 This endpoint is going to be a bit more complicated than those you've made previously. For skills, we need to store a more complicated data structure. Here's how your skill could be structured:
@@ -204,6 +282,7 @@ app.get('/secrets/:username/:pin', /*...*/);`
 #### Step 8 (Black Diamond): Allow for more queries/params
 * Let users search your hobbies, occupations, and skills endpoints by name.
 * Try to use `req.params` and `req.query` at least once each.
+* Update (`PUT`) a family member and restaurant.
 
 #### Step 9 (Black Diamond): Create a simple Angular app for your API
 * In a separate directory, create an Angular application
