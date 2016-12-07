@@ -3,239 +3,162 @@
 Personal API
 ============
 
-##Objective
+## Objective
 Utilize Node.js and Express to create a simple REST API
 
 You're going to build a personal API for your own data. Although the idea might seem silly, the point of the project is to get you used to using Express to return data in an API.
 
-#### Step 1: Build your server's core - installation and server.js file.
-* Start as usual with an `npm init` command to create our `package.json`.
-* Now install your dependencies. We will be using Express and body-parser. Note that you can install multiple dependencies at once with npm: `npm install express body-parser --save`.
-* Require Express and body-parser and initialize your express app.
-* Use body-parser's json method in an `app.use()` method.
+#### Step 1: Basic Setup
+1. Clone this project
+2. Create an `index.js` file
+3. Run `npm init` to to create our `package.json`.
+4. Install the packages we'll need — express and body-parser
+  * TIP: to install multiple packages use:  
+    `npm install --save express body-parser`
+5. Require express and body-parser
+6. Initialize express as `app`
+7. Invoke body-parser's json method within an `app.use()`
+8. Call the `listen` method on our `app` variable
 
-#### Step 1.5: Create a new file to store your user data.
-In this step. you'll need to create a file called `user.js` to store your user object in. You can access the contents of this file throughout your application by using `module.exports`. You will learn more about this in the next step. For now, your user file should look something like this:
-
-```javascript
-var user = {};
-module.exports = user;
-```
-
-Where `user` will contain your own information. Your `user` object should be in the format below. Feel free to add additional entries, but this is the bare minimum. Replace the null values with your own values.
-
-```javascript
-{
-  name: null,
-  location: null,
-  occupations: [],
-  hobbies: [
-    {
-      name: null,
-      type: null
-    },
-    {
-      name: null,
-      type: null
-    },
-    {
-      name: null,
-      type: null
-    }
-  ],
-  family: [
-    {
-      name: null,
-      relation: null,
-      gender: null
-    },
-    {
-      name: null,
-      relation: null,
-      gender: null
-    },{
-      name: null,
-      relation: null,
-      gender: null
-    }
-  ],
-  restaurants: [
-    {
-      name: null,
-      type: null,
-      rating: null
-    },
-    {
-      name: null,
-      type: null,
-      rating: null
-    },
-    {
-      name: null,
-      type: null,
-      rating: null
-    }
-  ]
-}
-```
+Finally, go to each of the model files provided for you in this project. Fill out each set of objects with your favorite books or movies.
 
 #### Step 2: Creating controllers
-In yesterday's projects you might have noticed that our `server.js` file was rapidly becoming very cluttered with our function logic. To get around this and keep a clean `server.js` we're going to create some controllers and move a significant amount of logic into those. Start by creating a `controllers` directory, inside which you will create a `middleware.js` and a `mainCtrl.js`. These are the files in which we write the bulk of our code today. We'll start in `middleware.js`.
+In yesterday's projects our `index.js` file was becoming cluttered. One of the best ways to start splitting up our code is to create controllers. These controller files will house the functions for each of our endpoints.
 
-Yesterday we had to write out headers in every single request made and sent; now we get to simplify things! Before we actually start writing our middleware we need a way to get the code from this directory to be accessible to our `server.js`. The way we do this is with `module.exports`. There are two common ways of using `module.exports`, either way will work fine, and which you choose is a matter of preference. Here is an example of each:
+Create two controller files:
+* `controllers/books_controller.js`
+* `controllers/movies_controller.js`
 
-```javascript
-var exports = module.exports = {}
+Each controller will need to have `module.exports = {}`.  
+Now, instead of writing functions for each endpoint in `index.js`, we can write those function in the controllers.
 
-exports.myFunction = function(req, res) {
-  /*...*/
-}
-
-exports.anotherFunction = function(req, res) {
-  /*...*/
-}
-```
---------
+Recall the 5 main Restful methods discussed in class. We won't always need each of these methods in our controllers, but you can use the below as a starting point reference!
 
 ```javascript
 module.exports = {
-  myFunction: function(req, res) {
-    /*...*/
+  index: function(req, res, next) {
+    // send back all objects
   },
-
-  anotherFunction: function(req, res) {
-    /*...*/
+  show: function(req, res, next) {
+    // send back one object
+  },
+  create: function(req, res, next) {
+    // add another object
+  },
+  update: function(req, res, next) {
+    // change one existing object
+  },
+  destroy: function(req, res, next) {
+    // remove one existing object
   }
 }
 ```
 
-As you can see we are just creating an object which we will then pull into our `server.js` to have access to the methods we create inside that object. This is similar to dependency injection in Angular, just a different syntax. I'll be using the second style in this project, but as I mentioned, it is just preference and both will function the same.
-
-Your `mainCtrl.js` will also need to access the contents of `user.js`, so you can view/manipulate your data. You can gain access to `user.js` by using `require` inside of your controller like so:
+To further explain, this creates an object which we will then pull into our `index.js`. This will give us access to the methods we create inside that object. Let's go to `index.js` and require both of our controllers. Since these are our own files, we `require` them with a file path.
 
 ```javascript
-var user = require('../user.js');
+var booksController = require('./controllers/books_controller');
+var moviesController = require('./controllers/movies_controller');
 ```
 
-Inside of our `middleware.js` controller, let's create a new function that simply adds the headers we used yesterday to a response and then moves on to the next function. This looks a lot like our requests from yesterday, but without a `res.send()`:
+Now, when we start creating our endpoints, we can access any of the methods in our controller using the controller variables and the method names, eg. `booksController.index`
+
+Back to our controller files.
+Each controller will need to access the respective data in the model files. Use the require `require` function in each controller to assign the model data to a variable. Remember that we have to use 2 dots `../` for this file path since we are now inside the controllers folder.
 
 ```javascript
-module.exports = {
+var books = require('../models/books');
+```
 
-  addHeaders: function(req, res, next) {
-    res.status(200).set({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, PUT',
-      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-      'X-XSS-Protection': '1; mode=block',
-      'X-Frame-Options': 'SAMEORIGIN',
-      'Content-Security-Policy': "default-src 'self' devmountain.github.io"
-    });
+#### Step 3: Create Read-Only Endpoints
+These endpoints:
+* will return data from one of the models (see below)
+* should only be accessible with a GET request (read-only)
+* will call functions from your controller  
+  eg. `app.get('/books', booksController.index)`
 
-    next();
-  }
+#### `GET /books`
+sends back all books
+```json
+[
+  { "title": "", "author": "", "fiction": true },
+  { "title": "", "author": "", "fiction": true },
+  { "title": "", "author": "", "fiction": true }
+]
+```
+
+#### `GET /books/:id`
+sends back one book at the index of id
+```json
+{
+  "title": "",
+  "author": "",
+  "fiction": true
 }
 ```
 
-You should also notice that we passed in a new parameter: `next`. What `next` does when invoked is simply pass the request along to the next function in line. Without `next()` or a `res.send()` our request will simply sit on our server and eventually time out. Let's head back to our `server.js` file and set up our controllers.
-
-To have access to the code inside these controllers we will need to `require` much like we do with node modules. For these requires we need to provide a file path, which will look like this:
-
-```javascript
-var middleware = require('./controllers/middleware.js');
-var mainCtrl = require('./controllers/mainCtrl.js');
+#### `GET /movies`
+sends back all books
+```json
+[
+  { "title": "", "genre": "", "rating": 1 },
+  { "title": "", "genre": "", "rating": 1 },
+  { "title": "", "genre": "", "rating": 1 }
+]
 ```
 
-Now we can access any methods that we put inside of our `mainCtrl` or `middleware` objects with dot notation. We'll demonstrate by setting our middleware function to be used on every request. Remember your code from setting up body-parser, we will be doing the same thing with our own custom middleware.
-
-```javascript
-app.use(middleware.addHeaders);
-```
-
-As simple as that, we no longer have to individually apply headers to every single endpoint! Remember that the `app.use()` method just applies a function to every request made before passing it on to the next function or eventually sending a response.
-
-#### Step 3: Build read-only endpoints
-* These endpoints will return data (see below)
-* These endpoints should only be accessible with a GET request (read-only)
-* These endpoints will call functions from your controller rather than having them declared inside of the endpoint. i.e `app.get('/name', mainCtrl.getName)` rather than `app.get('/name', function(req, res) { /*...*/});`
-
-###### `GET /name`
-- returns: Your name (e.g. Joe Sandwiches) in a JSON object:
-`{ "name": "Donald Duck" }`
-
-###### `GET /location`
-- returns: Your location (e.g. Seattle, WA) in a JSON object:
-`{ "location": "Timbuktu" }`
-
-###### `GET /occupations`
-- returns: Your past occupations as an array in a JSON object:
-`{ "occupations": ["Thwarting Buggs Bunny", "Tomfoolery"] }`
-
-###### `GET /occupations/latest`
-- returns: The last/current job you have/had. The occupations will be stored in an array, but this method returns the last item of the array in a JSON reponse:
-`{ "latestOccupation": "Tomfoolery" }`. (Hint: this is just basic Javascript to access the last value of an array - checkout .slice on MDN)
-
-###### `GET /hobbies`
-- returns: Your hobbies (e.g. Fishing, Swimming, etc.) as an array of objects in a JSON object:
-```javascript
-{ hobbies: [{
-    "name": "Watching cartoons",
-    "type": "current"
-    },
-    {
-    "name": "Quacking",
-    "type": "past"
-    }
-    ]
+#### `GET /movies/latest`
+sends back the last movie added to the movies array
+```json
+{
+  "title": "",
+  "genre": "",
+  "rating": 1
 }
 ```
 
-###### `GET /hobbies/:type`
-- returns: Any hobbies that match the type property specified in the request parameter. (Hint: checkout the .filter method and the 2nd example of it [here](https://msdn.microsoft.com/en-us/library/ff679973(v=vs.94).aspx))
+Keep in mind it's ok to add methods other than the main 5 in our controllers. Those 5 will just be the most common. Name this method `latest`.
 
-###### `GET /family`
-- returns: Your family members, as an array of objects in a JSON object.
+Inside of the `latest` method you will need to use your Javascript skills get the last movie from the array.
 
-- Allow for a 'relation' query to retrieve all family members that match a given relation.
+#### `GET /movies/:id`
+sends back one movie at the index of id
+```json
+{
+  "title": "",
+  "genre": "",
+  "rating": 1
+}
+```
 
-###### `GET /family/:gender`
-- returns: All family members of the specified gender (Hint: see the hint on the `/hobbies/:type` endpoint)
-
-###### `GET /restaurants`
-- returns: Your favorite restaurants, as an array of objects in a JSON object.
-
-- Allow for a 'rating' query to retrieve all restaurants with a rating greater than or equal to 2. (Hint: go [here](https://support.sparkpay.com/hc/en-us/articles/202836800-Resource-Query-Filtering-Syntax) to see how to use greater than or equal to - see the Comparison Operators section.)
-
-###### `GET /restaurants/:name`
-- returns: Your favorite restaurant matching the supplied name parameter. (Hint: to use parameters - or queries - that are multiple words, use `+`: ex. `/restaurants/taco+bell`)
+#### Step 4: Add filters and ordering to your API
+Using the `GET /books` endpoint we just created, let's make it possible for a user to ask for only fiction books or non-fiction books.
 
 
-#### Step 4: Add ordering to your API
-For the occupations endpoint, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
+For the `GET /books` endpoint, let's have a way for the client to get a specific ordering, alphabetized or reverse alphabetized.
 * Make it so when the client requests occupations with a order query parameter, return an alphabetized list for `order=desc` and a reverse alphabetized list for `order=asc` (if your occupations endpoints are arrays of strings, you can simply use the Javascript `.sort()` and `.reverse()` methods of an array to do your sorting).
-* This endpoint needs to work with or without an order query. So you will need to use an if statement (or a switch statement for extra credit) to check the value/existence of `req.query.order`. 
+* This endpoint needs to work with or without an order query. So you will need to use an if statement (or a switch statement for extra credit) to check the value/existence of `req.query.order`.
 
 #### Step 5: Make writable endpoints
 Now you're going to make some endpoints that can be added to or modified by `POST` or `PUT` requests. Make sure that in addition to sending the new/updated information, you also modify your user object so that future `GET` requests will reflect your changes.
 
-###### `PUT /name`
-- Changes your name
+###### `POST /books`
+- Adds to your list of movies.
 
-###### `PUT /location`
-- Updates your current location.
+###### `POST /movies`
+- Adds to your list of movies.
 
-###### `POST /hobbies`
-- Adds to your list of hobbies.
+###### `PUT /books/:id`
+- Switches out the book at the index of `:id` with what is sent in `req.body`
 
-###### `POST /occupations`
-- Adds to your list of occupations.
+###### `PUT /movies/:id`
+- Switches out the movie at the index of `:id` with what is sent in `req.body`
 
-###### `POST /family`
-- Adds to your list of family members.
+###### `DELETE /books/:id`
+- Deletes the book at the index of `:id`
 
-###### `POST /restaurants`
-- Adds to your list of restaurants.
+###### `DELETE /restaurants`
+- Deletes the movie at the index of `:id`
 
 #### Step 6: Create skills endpoint
 This endpoint is going to be a bit more complicated than those you've made previously. For skills, we need to store a more complicated data structure. Here's how your skill could be structured:
@@ -248,7 +171,7 @@ This endpoint is going to be a bit more complicated than those you've made previ
 }
 ```
 
-* Create a file called `skillz.js` and populate it with an array of skills objects like the example above. This file will be similar in nature to your `user.js` file and as such should utilize `module.exports` and be required in the necessary controller files. 
+* Create a file called `skillz.js` and populate it with an array of skills objects like the example above. This file will be similar in nature to your `users.js` file and as such should utilize `module.exports` and be required in the necessary controller files.
 * Create the endpoint
 
 ###### `GET /skillz`
@@ -269,12 +192,17 @@ app.post('/skillz', middleware.generateId, mainCtrl.postSkillz);
 
 If this request is timing out, make sure you didn't forget to include the `next()` call inside your middleware!
 
-#### Step 7: Secrets
-* Create one more file called `secrets.js` that will export an array of secrets stored as strings. Make sure to require this in the necessary controller file.
+#### Step 7: Privacy
+Now that we've done all this work to get our api together, we don't want to let just anybody delete books or movies from our collections. Let's make it so that each of our DELETE endpoints requires a secret code to work.
+
+Let's require that for
+
+* Create one more file `policies/pin_auth.js`.
+* that will export an object of secrets stored as strings. Make sure to require this in the necessary controller file.
 * Let's create one more endpoint, somewhere we want to hide our deep dark secrets. We don't want just anyone accessing our secrets, so lets have a username and PIN parameter to make sure that *you* are _**you!**_
 
 ```javascript
-app.get('/secrets/:username/:pin', /*...*/);`
+app.get('/secrets/:username/:pin', /*...*/);
 ```
 
 (Note that you probably shouldn't use your actual PIN here when testing). We'll need another set of middleware to handle this function, so create a new method in your `middleware.js` named `verifyUser`. This method should check that the parameters match a username and PIN you set. If they do, pass the request on to the `next` function; otherwise, send an error message back to the user without moving to the next function.
@@ -292,6 +220,11 @@ app.get('/secrets/:username/:pin', /*...*/);`
   * `/skillz`: a page to display your skills
 * Create a service that handles the network requests (hint: you could create a method for each endpoint, or you could consolidate some into the same method)
 * If you arrive this far, go ahead and make some text inputs and add the logic necessary to edit or add to any of the "writeable" endpoints.
+
+# TODO:
+make this a single collection of just books
+when no URL query is present
+sends back only fiction (`?fiction=true`) or non-fiction (`?fiction=false`) books as appropriate
 
 ## Contributions
 If you see a problem or a typo, please fork, make the necessary changes, and create a pull request so we can review your changes and merge them into the master repo and branch.
