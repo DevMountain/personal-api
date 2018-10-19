@@ -13,7 +13,7 @@ Utilize Node.js and Express to create a simple REST API with your own data. You'
 * Require Express, body-parser and cors in your `index.js`.
 * Initialize your express app by invoking express and saving it to a variable named app.
 * Use body-parser's json method in an `app.use()` method.
-* Use `cors(`) in an an `app.use()` method.
+* Use `cors(`) in an `app.use()` method.
 
 #### Step 1.5: Create a new file to store your user data.
 In this step, you'll need to create a file called `user.js` to store your user object which will hold your personal data. You can access the contents of this file throughout your application by exporting with `module.exports`. Your `user` object should be in the format below. Feel free to add additional entries, but this is the bare minimum. Replace the null values with your own values.
